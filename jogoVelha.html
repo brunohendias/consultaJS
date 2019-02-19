@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Jogo da velha</title>
+	<style type="text/css">
+		#dvJogo{
+			width:160px;height:150px;display:flex;flex-wrap:wrap;
+		}
+		.divJogador{
+			width:50px;height:50px;display:flex;cursor:pointer;justify-content:center;text-align:center;font-size:40px;
+		}
+		#d1{border-right:1px solid;border-bottom:1px solid;}
+		#d2{border-right:1px solid;border-bottom:1px solid;border-left:1px solid;}
+		#d3{border-left:1px solid;border-bottom:1px solid;}
+		#d4{border-right:1px solid;border-bottom:1px solid;border-top:1px solid;}
+		#d5{border:1px solid;}
+		#d6{border-left:1px solid;border-bottom:1px solid;border-top:1px solid;}
+		#d7{border-right:1px solid;border-top:1px solid;}
+		#d8{border-right:1px solid;border-top:1px solid;border-left:1px solid;}
+		#d9{border-left:1px solid;border-top:1px solid;}
+	</style>
+</head>
+<body>
+	<div id="menu">
+		<div id="jogadorVes"></div>
+		<button id="jogar">jogar</button>
+	</div>
+	<div id="dvJogo"></div>
+	<script type="text/javascript">
+		var d=1;var jogo=[];var tabuleiro=[];var quemJoga=0;var verifica;var jogando=true;var nivel=1;var jogadaCpu=1;var quemComeca=1;
+		var div=document.getElementById('dvJogo');
+		for(var i=0;i<9;i++){
+			div.innerHTML+='<div id="d'+d+'" class="divJogador" onclick="jogar('+d+')"></div>';
+			d++;
+		}
+		function cpu(){
+			if(jogando){
+				var l,c;
+				if(nivel==1){
+					do{
+						l=Math.round(Math.random()*2);
+						c=Math.round(Math.random()*2);
+					}while(jogo[l][c]!="");
+					jogo[l][c]="o";
+				}else if(nivel==2){}
+			}
+			verifica=verificaVitoria();
+			if(verifica!=""){
+				alert(verifica+' venceu');
+				jogando=false;
+			}
+			atualizaTabuleiro();
+			quemJoga=0;
+		}
+		function verificaVitoria(){
+			var l,c;
+			for(l=0;l<3;l++){
+				if((jogo[l][0]==jogo[l][1])&&(jogo[l][1]==jogo[l][2])){
+					return jogo[l][0];
+				}
+			}
+			for(c=0;c<3;c++){
+				if((jogo[0][c]==jogo[1][c])&&(jogo[1][c])==jogo[2][c]){
+					return jogo[0][c];
+				}
+			}
+			if((jogo[0][0]==jogo[1][1])&&(jogo[1][1])==jogo[2][2]){
+				return jogo[0][0];
+			}
+			if((jogo[0][2]==jogo[1][1])&&(jogo[1][1])==jogo[2][0]){
+				return jogo[0][2];
+			}
+			return "";
+		}
+
+		function jogar(p){
+			if((jogando)&&(quemJoga==0)){
+				switch(p){
+					case 1:
+						if(jogo[0][0]==""){
+							jogo[0][0]="x";							
+							quemJoga=1;
+						}
+					break;
+					case 2:
+						if(jogo[0][1]==""){
+							jogo[0][1]="x";
+							quemJoga=1;
+						}
+					break;
+					case 3:
+						if(jogo[0][2]==""){
+							jogo[0][2]="x";							
+							quemJoga=1;
+						}
+					break;
+					case 4:
+						if(jogo[1][0]==""){
+							jogo[1][0]="x";							
+							quemJoga=1;
+						}
+					break;
+					case 5:
+						if(jogo[1][1]==""){
+							jogo[1][1]="x";
+							quemJoga=1;
+						}
+					break;
+					case 6:
+						if(jogo[1][2]==""){
+							jogo[1][2]="x";
+							quemJoga=1;
+						}
+					break;
+					case 7:
+						if(jogo[2][0]==""){
+							jogo[2][0]="x";
+							quemJoga=1;
+						}
+					break;
+					case 8:
+						if(jogo[2][1]==""){
+							jogo[2][1]="x";
+							quemJoga=1;
+						}
+					break;
+					case 9:
+						if(jogo[2][2]==""){
+							jogo[2][2]="x";
+							quemJoga=1;
+						}
+					break;
+				}
+				if(quemJoga==1){
+					atualizaTabuleiro();
+					verifica=verificaVitoria();
+					if(verifica!=""){
+						alert(verifica+' venceu');
+						jogando=false;
+					}
+					cpu();
+				}
+			}
+		}
+		function atualizaTabuleiro(){
+			var l,c;
+			for(l=0;l<3;l++){
+				for(c=0;c<3;c++){
+					if(jogo[l][c]=="x"){
+						tabuleiro[l][c].innerHTML="X";
+					}else if(jogo[l][c]=="o"){
+						tabuleiro[l][c].innerHTML="O";
+					}else{
+						tabuleiro[l][c].innerHTML="";
+					}
+				}
+			}
+		}
+		function inicia(){
+			jogando=true;
+			jogadaCpu=1;
+			jogo=[["","",""],["","","",],["","","",]];
+			tabuleiro=[[document.getElementById('d1'),document.getElementById('d2'),document.getElementById('d3')],
+					   [document.getElementById('d4'),document.getElementById('d5'),document.getElementById('d6')],
+					   [document.getElementById('d7'),document.getElementById('d8'),document.getElementById('d9')]];
+			atualizaTabuleiro();
+		}
+		document.getElementById('jogar').addEventListener('click',inicia);
+	</script>
+</body>
+</html>

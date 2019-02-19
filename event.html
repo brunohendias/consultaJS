@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+	<title>Evento de movimento</title>
+	<meta charset="utf-8">
+	<style type="text/css">
+		#dv1{
+			width: 100px;
+			height: 100px;
+			border: 1px solid #000;
+			background-color: #f00;
+			position: absolute;
+			left: 0px;
+			top: 0px;
+		}
+	</style>
+	<script type="text/javascript">
+		var px = 0;//posição x
+		var py = 0;//posição y
+
+		function move(){
+			var obj=document.getElementById("dv1");
+			var tecla = event.keyCode;
+			//37-esquerda 38-cima 39-direita 40-baixo
+			if(tecla==37){
+				px -= 10;//posição x vai mover 10 pixels
+				obj.style.left=px+"px";//movimento por CSS
+			}else if(tecla == 38){
+				py -=10;//posição y vai mover 10 pixels
+				obj.style.top=py+"px";//movimento por CSS
+			}else if(tecla == 39){		
+				px +=10;//posição x vai mover 10 pixels
+				obj.style.left=px+"px";
+			}else if(tecla == 40){		
+				py +=10;
+				obj.style.top=py+"px";
+			}else if(tecla ==13){
+				alert("Evento Keydown Removido");
+				document.removeEventListener("keydown",move);
+			}
+		}
+
+		document.addEventListener("keydown",move);
+	</script>
+</head>
+<body>
+	<div id="dv1"></div>
+</body>
+</html>
